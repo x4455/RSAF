@@ -10,6 +10,8 @@
 ### Unreleased
 
 * Use local pinned version of gomobile during build ([PR #135])
+* Add the machine-readable version code to the APK filename ([Issue #50], [PR #136])
+* Make gomobile shared library reproducible ([PR #138])
 
 ### Version 3.3
 
@@ -247,6 +249,7 @@
 [Issue #27]: https://github.com/chenxiaolong/RSAF/issues/27
 [Issue #28]: https://github.com/chenxiaolong/RSAF/issues/28
 [Issue #44]: https://github.com/chenxiaolong/RSAF/issues/44
+[Issue #50]: https://github.com/chenxiaolong/RSAF/issues/50
 [Issue #55]: https://github.com/chenxiaolong/RSAF/issues/55
 [Issue #65]: https://github.com/chenxiaolong/RSAF/issues/65
 [Issue #73]: https://github.com/chenxiaolong/RSAF/issues/73
@@ -351,3 +354,5 @@
 [PR #130]: https://github.com/chenxiaolong/RSAF/pull/130
 [PR #133]: https://github.com/chenxiaolong/RSAF/pull/133
 [PR #135]: https://github.com/chenxiaolong/RSAF/pull/135
+[PR #136]: https://github.com/chenxiaolong/RSAF/pull/136
+[PR #138]: https://github.com/chenxiaolong/RSAF/pull/138

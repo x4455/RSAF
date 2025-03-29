@@ -124,7 +124,7 @@ android {
         versionCode = gitVersionCode
         versionName = gitVersionName
 
-        base.archivesName.set("RSAF-$versionName")
+        base.archivesName.set("RSAF-$versionName-$versionCode")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -332,6 +332,7 @@ val rcbridge = tasks.register("rcbridge") {
                 "-target=android",
                 "-androidapi=${android.defaultConfig.minSdk}",
                 "-javapkg=${android.namespace}.binding",
+                "-trimpath",
                 ".",
             )
             environment(
