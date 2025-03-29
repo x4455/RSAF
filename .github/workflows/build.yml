@@ -1,0 +1,51 @@
+on:
+  workflow_dispatch:
+
+jobs:
+  build-release:
+    name: Build Release APK
+    runs-on: ubuntu-latest
+    env:
+      androidArch: x86_64
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Validate gradle wrapper checksum
+        uses: gradle/actions/wrapper-validation@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 21
+          cache: gradle
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          cache-dependency-path: rcbridge/go.sum
+          go-version-file: rcbridge/go.mod
+
+      - name: Get NDK version
+        id: get_version
+        shell: bash
+        run: |
+          sed -nr \
+              -e 's/^\s*(compileSdk)\s*(=)\s([0-9]+).*$/\1\2\3/p' \
+              -e 's/^\s*(ndkVersion)\s*(=)\s"(.+)".*$/\1\2\3/p' \
+              app/build.gradle.kts \
+              >> "${GITHUB_OUTPUT}"
+
+      - name: Build Release APK
+        run: ./gradlew --no-daemon assembleRelease
+
+      - name: Upload Release APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: release-apk
+          path: app/build/outputs/apk/release/*.apk
+          retention-days: 1
