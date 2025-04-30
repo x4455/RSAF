@@ -99,6 +99,8 @@ object Thumbnailer {
             val subsampler = SubsampleDuringDecode(sizeHint, signal)
 
             return ImageDecoder.decodeBitmap(source, subsampler)
+        } catch (e: IOException) {
+            throw IOException("Failed to create audio thumbnail", e)
         } finally {
             retriever.release()
         }
@@ -141,6 +143,8 @@ object Thumbnailer {
                         image.recycle()
                     }
                 }
+            } catch (e: IOException) {
+                throw IOException("Failed to create image thumbnail from video container", e)
             } finally {
                 retriever.release()
             }
@@ -183,6 +187,8 @@ object Thumbnailer {
                     bitmap = ImageDecoder.decodeBitmap(source, subsampler)
                 } catch (_: ImageDecoder.DecodeException) {
                     // Ignore
+                } catch (e: IOException) {
+                    throw IOException("Failed to decode thumbnail from EXIF data", e)
                 }
             }
         }
@@ -222,7 +228,11 @@ object Thumbnailer {
         if (bitmap == null) {
             signal?.throwIfCanceled()
 
+            // Check file size before processing
             val fileSize = Os.lseek(fd, 0, OsConstants.SEEK_END)
+            if (fileSize > 6 * 1024 * 1024) { // MB limit for images
+                throw IOException("Image file too large to process: $fileSize")
+            }
 
             val source = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 ImageDecoder.createSource {
@@ -243,10 +253,16 @@ object Thumbnailer {
                 throw IOException("Image too large to read into memory: $fileSize")
             }
 
-            bitmap = ImageDecoder.decodeBitmap(source, subsampler)
+            try {
+                bitmap = ImageDecoder.decodeBitmap(source, subsampler)
+            } catch (e: ImageDecoder.DecodeException) {
+                // Ignore
+            } catch (e: IOException) {
+                throw IOException("Failed to create image thumbnail from image file", e)
+            }
         }
 
-        return bitmap
+        return bitmap!!
     }
 
     /**
@@ -273,6 +289,12 @@ object Thumbnailer {
                 val subsampler = SubsampleDuringDecode(sizeHint, signal)
 
                 return ImageDecoder.decodeBitmap(source, subsampler)
+            }
+
+            // Check file size before processing
+            val fileSize = Os.lseek(fd, 0, OsConstants.SEEK_END)
+            if (fileSize > 100 * 1024 * 1024) { // MB limit for videos
+                throw IOException("Video file too large to process: $fileSize")
             }
 
             val width = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)
