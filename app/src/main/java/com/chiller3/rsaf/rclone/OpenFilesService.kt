@@ -17,6 +17,7 @@ import android.util.Log
 import androidx.annotation.UiThread
 import androidx.core.app.ServiceCompat
 import com.chiller3.rsaf.Notifications
+import java.util.concurrent.atomic.AtomicInteger
 
 /**
  * A dumb service to keep the process alive while files are open because ContentProviders don't get
@@ -41,11 +42,11 @@ class OpenFilesService : Service() {
     }
 
     private lateinit var notifications: Notifications
-    private var openFiles = 0
+    private var openFiles = AtomicInteger(0)
     private val handler = Handler(Looper.getMainLooper())
     // We need to keep a reference the same runnable for cancelling a delayed execution.
     private val stopNowRunnable = Runnable(::stopNow)
-
+    
     override fun onCreate() {
         super.onCreate()
 
@@ -58,11 +59,11 @@ class OpenFilesService : Service() {
         Log.d(TAG, "Received intent: $intent")
 
         when (intent?.action) {
-            ACTION_INCREMENT -> openFiles += 1
-            ACTION_DECREMENT -> openFiles -= 1
+            ACTION_INCREMENT -> openFiles.incrementAndGet()
+            ACTION_DECREMENT -> openFiles.updateAndGet { maxOf(it - 1, 0) }
         }
 
-        if (openFiles == 0) {
+        if (openFiles.get() == 0) {
             // We'll defer the stopping of the service by a small amount of time to avoid having
             // notifications rapidly appear and disappear when opening many small files. We can't
             // use FOREGROUND_SERVICE_DEFERRED because that is ignored if a deferral has already
@@ -83,7 +84,7 @@ class OpenFilesService : Service() {
 
     @UiThread
     private fun updateForegroundNotification() {
-        val notification = notifications.createOpenFilesNotification(openFiles)
+        val notification = notifications.createOpenFilesNotification(openFiles.get())
         val type = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE
         } else {
