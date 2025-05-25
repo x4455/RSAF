@@ -70,6 +70,8 @@
     <string name="pref_edit_remote_allow_locked_access_desc_off">当 RSAF 被锁定时，文件将对外部应用程序隐藏，新的文件操作会被阻止。已经打开的文件和正在进行的操作不受影响。</string>
     <string name="pref_edit_remote_dynamic_shortcut_name">在启动器中显示快捷方式</string>
     <string name="pref_edit_remote_dynamic_shortcut_desc">长按 RSAF 的启动器图标时，将此 Remote 包含在快捷方式列表中。</string>
+    <string name="pref_edit_remote_thumbnails_name">启用缩略图</string>
+    <string name="pref_edit_remote_thumbnails_desc">允许显示图像、视频和音乐(专辑封面)的缩略图。这可能会导致在浏览文件时产生额外的网络流量。</string>
     <string name="pref_edit_remote_vfs_caching_name">启用 VFS 缓存</string>
     <string name="pref_edit_remote_vfs_caching_desc_loading">(检查是否支持流式传输中…)</string>
     <string name="pref_edit_remote_vfs_caching_desc_optional">VFS 缓存支持随机写入，并允许重试失败的上传。但是，在客户端应用程序关闭文件之前，文件不会开始上传。</string>
