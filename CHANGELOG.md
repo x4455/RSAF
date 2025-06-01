@@ -7,6 +7,11 @@
     to update the actual links at the bottom of the file.
 -->
 
+### Version 3.8
+
+* Add support for the `findDocumentPath` SAF call ([Issue #158], [PR #160])
+* Update dependencies ([PR #161])
+
 ### Version 3.7
 
 * Add new per-remote option for disabling thumbnail support ([Issue #155], [PR #156])
@@ -275,6 +280,7 @@
 [Issue #106]: https://github.com/chenxiaolong/RSAF/issues/106
 [Issue #119]: https://github.com/chenxiaolong/RSAF/issues/119
 [Issue #155]: https://github.com/chenxiaolong/RSAF/issues/155
+[Issue #158]: https://github.com/chenxiaolong/RSAF/issues/158
 [PR #1]: https://github.com/chenxiaolong/RSAF/pull/1
 [PR #2]: https://github.com/chenxiaolong/RSAF/pull/2
 [PR #3]: https://github.com/chenxiaolong/RSAF/pull/3
@@ -379,3 +385,5 @@
 [PR #150]: https://github.com/chenxiaolong/RSAF/pull/150
 [PR #154]: https://github.com/chenxiaolong/RSAF/pull/154
 [PR #156]: https://github.com/chenxiaolong/RSAF/pull/156
+[PR #160]: https://github.com/chenxiaolong/RSAF/pull/160
+[PR #161]: https://github.com/chenxiaolong/RSAF/pull/161
