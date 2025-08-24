@@ -230,7 +230,7 @@ object Thumbnailer {
 
             // Check file size before processing
             val fileSize = Os.lseek(fd, 0, OsConstants.SEEK_END)
-            if (fileSize > 6 * 1024 * 1024) { // MB limit for images
+            if (fileSize > 16 * 1024 * 1024) { // MB limit for images
                 throw IOException("Image file too large to process: $fileSize")
             }
 
@@ -293,7 +293,7 @@ object Thumbnailer {
 
             // Check file size before processing
             val fileSize = Os.lseek(fd, 0, OsConstants.SEEK_END)
-            if (fileSize > 100 * 1024 * 1024) { // MB limit for videos
+            if (fileSize > 512 * 1024 * 1024) { // MB limit for videos
                 throw IOException("Video file too large to process: $fileSize")
             }
 
