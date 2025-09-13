@@ -7,6 +7,16 @@
     to update the actual links at the bottom of the file.
 -->
 
+### Version 3.15
+
+* Add PNG icon for F-Droid metadata ([Issue #50], [PR #180])
+* Remove dependency info block from APK ([Issue #50], [PR #181])
+
+### Version 3.14
+
+* Add version code to `metadata/version.txt` in the repo instead of in APK filename ([Issue #50], [PR #176])
+* Make builds more reproducible ([Issue #50], [PR #175], [PR #177], [PR #178])
+
 ### Version 3.13
 
 * Update rclone to 1.71.0 ([PR #171])
@@ -412,3 +422,9 @@
 [PR #165]: https://github.com/chenxiaolong/RSAF/pull/165
 [PR #166]: https://github.com/chenxiaolong/RSAF/pull/166
 [PR #171]: https://github.com/chenxiaolong/RSAF/pull/171
+[PR #175]: https://github.com/chenxiaolong/RSAF/pull/175
+[PR #176]: https://github.com/chenxiaolong/RSAF/pull/176
+[PR #177]: https://github.com/chenxiaolong/RSAF/pull/177
+[PR #178]: https://github.com/chenxiaolong/RSAF/pull/178
+[PR #180]: https://github.com/chenxiaolong/RSAF/pull/180
+[PR #181]: https://github.com/chenxiaolong/RSAF/pull/181

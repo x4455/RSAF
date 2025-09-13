@@ -13,6 +13,7 @@ import org.eclipse.jgit.archive.TarFormat
 import org.eclipse.jgit.lib.ObjectId
 import org.gradle.kotlin.dsl.environment
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.application)
@@ -128,7 +129,7 @@ android {
         versionCode = gitVersionCode
         versionName = gitVersionName
 
-        base.archivesName.set("RSAF-$versionName-$versionCode")
+        base.archivesName.set("RSAF-$versionName")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -191,6 +192,10 @@ android {
             reset()
             include("armeabi-v7a", "arm64-v8a", "x86", "x86_64")
         }
+    }
+    dependenciesInfo {
+        includeInApk = false
+        includeInBundle = false
     }
 }
 
@@ -263,10 +268,68 @@ interface InjectedExecOps {
 
 val rcbridgeSrcDir = File(rootDir, "rcbridge")
 
+val goenv = tasks.register("goenv") {
+    val envVars = arrayOf(
+        "GOPROXY",
+        "GOSUMDB",
+        "GOTOOLCHAIN",
+        "GOFLAGS",
+    ).associateWith { System.getenv(it) }
+    val goModFile = File(rcbridgeSrcDir, "go.mod")
+    val outputFile = extraDir.map { it.file("go.env") }
+
+    // Rebuild if the environment variables change.
+    inputs.properties(envVars.map { "golang.env.${it.key}" to (it.value ?: "") }.toMap())
+    inputs.files(goModFile)
+    outputs.files(outputFile)
+
+    doLast {
+        val prefix = "toolchain "
+        val goToolchain = goModFile.useLines { lines ->
+            lines.find { it.startsWith(prefix) }
+                ?.substring(prefix.length)
+                ?: throw IllegalStateException("go.sum does not contain toolchain version")
+        }
+
+        val defaultEnvVars = mapOf(
+            // Needed for building on Fedora prior to:
+            // https://src.fedoraproject.org/rpms/golang/c/1a696ebca1b2d5227921924d3f9885e18cf445b5
+            "GOPROXY" to "https://proxy.golang.org,direct",
+            "GOSUMDB" to "sum.golang.org",
+            // Pin to the specified toolchain version, even if the local toolchain is newer, for
+            // more reproducible builds.
+            "GOTOOLCHAIN" to goToolchain,
+            "GOFLAGS" to "-ldflags=-buildid= -buildvcs=false",
+        )
+
+        defaultEnvVars + envVars
+
+        val properties = Properties()
+        (defaultEnvVars.keys + envVars.keys).forEach { key ->
+            properties.put(key, envVars[key] ?: defaultEnvVars[key])
+        }
+
+        outputFile.get().asFile.writer().use {
+            properties.store(it, null)
+        }
+    }
+}
+
+fun addGoEnvironment(options: ProcessForkOptions) {
+    goenv.get().outputs.files.forEach { file ->
+        val properties = Properties()
+        file.reader().use { properties.load(it) }
+        properties.forEach { options.environment(it.key.toString(), it.value) }
+    }
+}
+
 val gomobile = tasks.register("gomobile") {
     val binDir = layout.buildDirectory.map { it.dir("bin") }
 
-    inputs.file(File(rcbridgeSrcDir, "go.sum"))
+    inputs.files(
+        File(rcbridgeSrcDir, "go.sum"),
+        goenv.map { it.outputs.files },
+    )
     outputs.files(
         binDir.map { it.file("gobind") },
         binDir.map { it.file("gomobile") },
@@ -280,6 +343,7 @@ val gomobile = tasks.register("gomobile") {
         injected.execOps.exec {
             executable("go")
             args = listOf("mod", "graph")
+            addGoEnvironment(this)
             workingDir(rcbridgeSrcDir)
             standardOutput = outputStream
         }
@@ -293,19 +357,45 @@ val gomobile = tasks.register("gomobile") {
 
         injected.execOps.exec {
             executable("go")
-            args = listOf(
+            args(
                 "install",
                 "golang.org/x/mobile/cmd/gobind@$version",
                 "golang.org/x/mobile/cmd/gomobile@$version",
             )
 
-            environment("GOBIN" to binDir.get().asFile.absolutePath)
-
-            if (!environment.containsKey("GOPROXY")) {
-                environment("GOPROXY", "https://proxy.golang.org,direct")
-            }
+            environment("GOBIN", binDir.get().asFile.absolutePath)
+            addGoEnvironment(this)
 
             workingDir(rcbridgeSrcDir)
+        }
+    }
+}
+
+val gowrapper = tasks.register("gowrapper") {
+    val gowrapperDir = File(rcbridgeSrcDir, "gowrapper")
+    val binDir = layout.buildDirectory.map { it.dir("bin") }
+
+    inputs.files(
+        File(gowrapperDir, "go.go"),
+        File(rcbridgeSrcDir, "go.mod"),
+        File(rcbridgeSrcDir, "go.sum"),
+        goenv.map { it.outputs.files },
+    )
+    outputs.files(
+        binDir.map { it.file("go") },
+    )
+
+    val injected = project.objects.newInstance<InjectedExecOps>()
+
+    doLast {
+        injected.execOps.exec {
+            executable("go")
+            args("install", "go.go")
+
+            environment("GOBIN", binDir.get().asFile.absolutePath)
+            addGoEnvironment(this)
+
+            workingDir(gowrapperDir)
         }
     }
 }
@@ -318,7 +408,9 @@ val rcbridge = tasks.register("rcbridge") {
         File(rcbridgeSrcDir, "go.sum"),
         File(rcbridgeSrcDir, "rcbridge.go"),
         File(File(rcbridgeSrcDir, "envhack"), "envhack.go"),
+        goenv.map { it.outputs.files },
         gomobile.map { it.outputs.files },
+        gowrapper.map { it.outputs.files },
     )
     inputs.properties(
         "android.defaultConfig.minSdk" to android.defaultConfig.minSdk!!,
@@ -363,11 +455,15 @@ val rcbridge = tasks.register("rcbridge") {
                 "ANDROID_NDK_HOME" to androidComponents.sdkComponents.ndkDirectory.get()
                     .asFile.absolutePath,
                 "TMPDIR" to tempDir.get().asFile.absolutePath,
+                // The wrapper will use this as a template to construct a relative path for
+                // reproducible builds. This will need to change if gomobile ever changes their
+                // temp directory layout.
+                "GOWRAPPER_BASE_PATH" to File(
+                    File(tempDir.get().asFile, "gomobile-work-PLACEHOLDER"),
+                    "src-android-PLACEHOLDER",
+                ),
             )
-
-            if (!environment.containsKey("GOPROXY")) {
-                environment("GOPROXY", "https://proxy.golang.org,direct")
-            }
+            addGoEnvironment(this)
 
             workingDir(rcbridgeSrcDir)
         }
@@ -392,6 +488,30 @@ val rcbridge = tasks.register("rcbridge") {
                 File(subDir, "pkg").delete()
                 subDir.delete()
             }
+        }
+    }
+}
+
+/*
+ * NOTE: This requires the https://crates.io/crates/resvg CLI utility. RSAF's SVG icon uses
+ * transform-origin, which very few SVG parsers support.
+ *
+ * https://gitlab.gnome.org/GNOME/librsvg/-/issues/685
+ * https://gitlab.com/inkscape/inbox/-/issues/4640
+ */
+tasks.register("iconPng") {
+    val inputSvg = File(File(File(rootDir, "app"), "images"), "icon.svg")
+    val outputPng = File(File(File(File(rootDir, "metadata"), "en-US"), "images"), "icon.png")
+
+    inputs.files(inputSvg)
+    outputs.files(outputPng)
+
+    val injected = project.objects.newInstance<InjectedExecOps>()
+
+    doLast {
+        injected.execOps.exec {
+            executable("resvg")
+            args("-w", "512", "-h", "512", inputSvg, outputPng)
         }
     }
 }
@@ -529,11 +649,23 @@ tasks.register("changelogPostRelease") {
     }
 }
 
+tasks.register("versionPreRelease") {
+    // This needs to be computed manually since the git tag hasn't been created yet at this point.
+    val version = project.property("releaseVersion")
+    val gitVersionCode = getVersionCode(VersionTriple("v$version", 0, ObjectId.zeroId()))
+
+    doLast {
+        File(File(rootDir, "metadata"), "version.txt").writeText(gitVersionCode.toString())
+    }
+}
+
 tasks.register("preRelease") {
     dependsOn("changelogUpdateLinks")
     dependsOn("changelogPreRelease")
+    dependsOn("versionPreRelease")
 }
 
 tasks.register("postRelease") {
     dependsOn("changelogPostRelease")
+    dependsOn("versionPostRelease")
 }
