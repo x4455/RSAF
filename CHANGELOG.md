@@ -7,6 +7,16 @@
     to update the actual links at the bottom of the file.
 -->
 
+**2025-10-02 Update: RSAF will _not_ be participating in Google's developer verification program ([more details](https://github.com/chenxiaolong/RSAF/issues/189)). This will soon impact your ability to install RSAF on most Android devices.**
+
+### Version 3.18
+
+* Update rclone to 1.71.1 ([PR #186])
+
+### Version 3.17
+
+* Temporarily downgrade AGP to 8.11.1 for compatibility with F-Droid's build server ([Issue #50], [Issue #185])
+
 ### Version 3.16
 
 * Fix installation of missing Android SDK components when running `./gradlew rcbridge` directly ([Issue #50], [PR #182])
@@ -317,6 +327,7 @@
 [Issue #119]: https://github.com/chenxiaolong/RSAF/issues/119
 [Issue #155]: https://github.com/chenxiaolong/RSAF/issues/155
 [Issue #158]: https://github.com/chenxiaolong/RSAF/issues/158
+[Issue #185]: https://github.com/chenxiaolong/RSAF/issues/185
 [PR #1]: https://github.com/chenxiaolong/RSAF/pull/1
 [PR #2]: https://github.com/chenxiaolong/RSAF/pull/2
 [PR #3]: https://github.com/chenxiaolong/RSAF/pull/3
@@ -437,3 +448,4 @@
 [PR #182]: https://github.com/chenxiaolong/RSAF/pull/182
 [PR #183]: https://github.com/chenxiaolong/RSAF/pull/183
 [PR #184]: https://github.com/chenxiaolong/RSAF/pull/184
+[PR #186]: https://github.com/chenxiaolong/RSAF/pull/186
