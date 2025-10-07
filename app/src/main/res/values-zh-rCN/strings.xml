@@ -19,23 +19,23 @@
     <string name="pref_inhibit_battery_opt_name">禁用电池优化</string>
     <string name="pref_inhibit_battery_opt_desc">需要该权限以在后台上传文件。</string>
     <string name="pref_missing_notifications_name">授予通知权限</string>
-    <string name="pref_missing_notifications_desc">需要该权限以在后台上传文件时显示。</string>
+    <string name="pref_missing_notifications_desc">需要该权限以在后台上传文件时显示通知。</string>
     <string name="pref_add_remote_name">新建 Remote</string>
-    <string name="pref_add_remote_desc">添加一个新的 Rclone Remote 配置。</string>
+    <string name="pref_add_remote_desc">添加新的 Rclone Remote 配置。</string>
     <string name="pref_import_configuration_name">导入配置</string>
     <string name="pref_import_configuration_desc">导入已有的 Rclone 配置文件。</string>
     <string name="pref_export_configuration_name">导出配置</string>
-    <string name="pref_export_configuration_desc">将当前 Rclone 配置导出到文件。</string>
+    <string name="pref_export_configuration_desc">将当前 Rclone 配置文件导出。</string>
     <string name="pref_add_file_extension_name">添加文件扩展名</string>
     <string name="pref_add_file_extension_desc">在创建新文件时，自动添加与文件类型相对应的文件扩展名。</string>
     <string name="pref_pretend_local_name">伪装为本地存储</string>
     <string name="pref_pretend_local_desc">将 Rclone Remotes 作为本地存储提供给存储访问框架。这会强制与仅允许选择本地文件的应用程序兼容。</string>
     <string name="pref_local_storage_access_name">允许访问本地存储</string>
-    <string name="pref_local_storage_access_desc">允许包装类 Remotes，例如 <tt>crypt</tt>…\n访问 <tt>/sdcard</tt> 下的共享存储空间。</string>
+    <string name="pref_local_storage_access_desc">允许封装类 Remotes 访问，例如 <tt>crypt</tt>…\n访问 <tt>/sdcard</tt> 下的共享存储空间。</string>
     <string name="pref_dialogs_at_bottom_name">在底部显示对话框</string>
     <string name="pref_dialogs_at_bottom_desc">使单手操作更加方便，并防止对话框按钮移位。</string>
     <string name="pref_require_auth_name">需要身份验证</string>
-    <string name="pref_require_auth_desc">需要生物识别解锁或屏幕锁定PIN码/密码才能查看和更改 RSAF 设置。</string>
+    <string name="pref_require_auth_desc">需要生物识别解锁或屏幕锁定 PIN 码/密码才能查看和更改 RSAF 设置。</string>
     <string name="pref_inactivity_timeout_name">闲置超时</string>
     <plurals name="pref_inactivity_timeout_desc">
         <item quantity="other">离开应用 %d 秒后自动锁定。</item>
@@ -50,7 +50,7 @@
     <string name="pref_save_logs_name">保存日志</string>
     <string name="pref_save_logs_desc">将 Logcat 日志保存到文件中。请注意，日志可能包含已访问的 Remote 文件的名称。</string>
     <string name="pref_add_internal_cache_remote_name">创建 Rclone 内部缓存 Remote</string>
-    <string name="pref_add_internal_cache_remote_desc">添加一个新的 <tt>alias</tt> Remote，指向 Rclone 内部缓存目录。这对于排查 VFS 问题非常有用。</string>
+    <string name="pref_add_internal_cache_remote_desc">添加一个 <tt>alias</tt> Remote，指向 Rclone 内部缓存目录。这对于排查 VFS 问题非常有用。</string>
 
     <!-- Remote preferences -->
     <string name="pref_edit_remote_open_name">打开 Remote</string>
@@ -108,7 +108,7 @@
 
     <!-- Dialogs -->
     <string name="dialog_action_next">下一步</string>
-    <string name="dialog_action_ok">好的</string>
+    <string name="dialog_action_ok">确定</string>
     <string name="dialog_action_cancel">取消</string>
     <string name="dialog_action_authorize">授权</string>
     <string name="dialog_action_reset">重置</string>
@@ -130,7 +130,7 @@
     <string name="dialog_export_password_hint">加密密码</string>
     <string name="dialog_inactivity_timeout_title">闲置超时</string>
     <string name="dialog_inactivity_timeout_message">输入超时时间 (单位为秒)。</string>
-    <string name="dialog_vfs_cache_deletion_message">当前有待处理的上传任务正在进行，可能会被中断。这些任务将从VFS缓存中永久删除。</string>
+    <string name="dialog_vfs_cache_deletion_message">当前有待处理的上传任务正在进行，可能会被中断。这些任务将从 VFS 缓存中永久删除。</string>
 
     <!-- Interactive configuration -->
     <string name="ic_title_add_remote">添加 Remote: %1$s</string>
