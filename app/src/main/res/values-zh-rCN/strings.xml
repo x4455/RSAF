@@ -72,14 +72,12 @@
     <string name="pref_edit_remote_dynamic_shortcut_desc">长按 RSAF 的启动器图标时，将此 Remote 包含在快捷方式列表中。</string>
     <string name="pref_edit_remote_thumbnails_name">启用缩略图</string>
     <string name="pref_edit_remote_thumbnails_desc">允许显示图像、视频和音乐(专辑封面)的缩略图。这可能会导致在浏览文件时产生额外的网络流量。</string>
-    <string name="pref_edit_remote_vfs_caching_name">启用 VFS 缓存</string>
-    <string name="pref_edit_remote_vfs_caching_desc_loading">(检查是否支持流式传输中…)</string>
-    <string name="pref_edit_remote_vfs_caching_desc_optional">VFS 缓存支持随机写入，并允许重试失败的上传。但是，在客户端应用程序关闭文件之前，文件不会开始上传。</string>
-    <string name="pref_edit_remote_vfs_caching_desc_required">由于该 Remote 类型不支持流式上传，因此无法禁用 VFS 缓存。</string>
     <string name="pref_edit_remote_report_usage_name">报告文件系统使用情况</string>
     <string name="pref_edit_remote_report_usage_desc_loading">(检查是否支持报告文件系统使用情况中…)</string>
     <string name="pref_edit_remote_report_usage_desc_supported">向客户端应用程序报告可用空间和总空间。对于某些 Remote 类型，这可能会显著降低客户端应用程序在获取 Remote 列表时的速度。</string>
     <string name="pref_edit_remote_report_usage_desc_unsupported">该 Remote 类型不支持报告其可用空间和总空间。</string>
+    <string name="pref_edit_remote_vfs_options_name">自定义 VFS 选项</string>
+    <string name="pref_edit_remote_vfs_options_desc">设置 <tt>rclone mount</tt> 支持的自定义 rclone VFS 选项。</string>
 
     <!-- Main alerts -->
     <string name="alert_list_remotes_failure">无法获取 Remotes 列表: %1$s</string>
@@ -108,8 +106,6 @@
 
     <!-- Dialogs -->
     <string name="dialog_action_next">下一步</string>
-    <string name="dialog_action_ok">确定</string>
-    <string name="dialog_action_cancel">取消</string>
     <string name="dialog_action_authorize">授权</string>
     <string name="dialog_action_reset">重置</string>
     <string name="dialog_action_proceed_anyway">仍然继续</string>
@@ -139,18 +135,28 @@
     <string name="ic_text_box_helper_not_required">值可以为空。</string>
     <string name="ic_header_examples">选项示例:</string>
 
+    <!-- VFS options dialog -->
+    <string name="vfs_options_title">VFS 选项: %1$s</string>
+    <string name="vfs_options_message">以 <tt>key=value</tt> 的格式输入自定义 rclone VFS 选项，每行一个选项。key是命令行参数，去掉开头的 <tt>--</tt> 并将其他所有连字符替换为下划线。有关可用选项列表，请参阅 <annotation type="rclone_vfs_docs">rclone 文档</annotation>。</string>
+    <string name="vfs_options_reload_warning"><b>注意</b>：必须重新加载 VFS 才能使更改生效，这将中断该 remote 正在进行的文件操作。</string>
+    <string name="vfs_options_save_and_reload">保存并加载</string>
+    <string name="vfs_options_save_only">仅保存</string>
+
     <!-- Notifications -->
-    <string name="notification_channel_open_files_name">文件打开</string>
-    <string name="notification_channel_open_files_desc">打开文件时保持进程活动状态</string>
-    <string name="notification_channel_background_uploads_name">后台上传</string>
-    <string name="notification_channel_background_uploads_desc">显示正在进行的后台上传</string>
+    <string name="notification_channel_keep_alive_name">后台服务</string>
+    <string name="notification_channel_keep_alive_desc">在文件打开或正在上传时保持进程运行</string>
     <string name="notification_channel_failure_name">错误警报</string>
     <string name="notification_channel_failure_desc">后台上传出错时发出警告</string>
-    <plurals name="notification_open_files_title">
-        <item quantity="other">已打开 %d 个文件</item>
+    <string name="notification_keep_alive_title">文件操作进行中</string>
+    <plurals name="notification_keep_alive_files_open_desc">
+        <item quantity="other">%d 个文件已打开</item>
     </plurals>
-    <plurals name="notification_background_uploads_in_progress_title">
-        <item quantity="other">正在上传 %d 个文件至 Remote</item>
+    <plurals name="notification_keep_alive_files_uploading_desc">
+        <item quantity="other">%d 个文件正在上传</item>
     </plurals>
+    <plurals name="notification_keep_alive_files_pending_desc">
+        <item quantity="other">%d 个文件待上传</item>
+    </plurals>
+    <string name="notification_keep_alive_cleanup_wait_desc">正在等待 VFS 缓存清理</string>
     <string name="notification_background_upload_failed_title">向 Remote 上传文件失败</string>
 </resources>
