@@ -9,6 +9,13 @@
 
 **2025-10-02 Update: RSAF will _not_ be participating in Google's developer verification program ([more details](https://github.com/chenxiaolong/RSAF/issues/189)). This will soon impact your ability to install RSAF on most Android devices.**
 
+### Version 3.23
+
+* Update rclone to 1.72.0 ([PR #201])
+* Use the same `User-Agent` header as upstream rclone ([PR #202])
+* Fix missing rclone info and debug logs when debugging options are enabled ([PR #203])
+    * This was a regression introduced with the rclone 1.70.0 upgrade in RSAF 3.9.
+
 ### Version 3.22
 
 * Work around Android bug where `system_server` crashes when file close operations take too long ([Issue #157], [PR #197])
@@ -472,3 +479,6 @@
 [PR #192]: https://github.com/chenxiaolong/RSAF/pull/192
 [PR #194]: https://github.com/chenxiaolong/RSAF/pull/194
 [PR #197]: https://github.com/chenxiaolong/RSAF/pull/197
+[PR #201]: https://github.com/chenxiaolong/RSAF/pull/201
+[PR #202]: https://github.com/chenxiaolong/RSAF/pull/202
+[PR #203]: https://github.com/chenxiaolong/RSAF/pull/203
