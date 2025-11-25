@@ -9,6 +9,12 @@
 
 **2025-10-02 Update: RSAF will _not_ be participating in Google's developer verification program ([more details](https://github.com/chenxiaolong/RSAF/issues/189)). This will soon impact your ability to install RSAF on most Android devices.**
 
+### Version 3.25
+
+* Fix dynamic shortcuts not updating immediately after importing a config ([PR #206])
+* Fix deadlock when uploading files with the mega backend ([Issue #200], [PR #207])
+    * (This explanation was updated post release. [PR #208]) This was a regression introduced in RSAF 3.1. Due to a bug in how RSAF integrates with rclone for loading TLS certificates, HTTP requests could only be made serially. The mega backend opens a long-running connection to listen for events, which prevented all further HTTP requests from being sent.
+
 ### Version 3.24
 
 * Add support for "allow local storage access" option in Android <=10 ([Issue #164], [PR #204])
@@ -359,6 +365,7 @@
 [Issue #185]: https://github.com/chenxiaolong/RSAF/issues/185
 [Issue #190]: https://github.com/chenxiaolong/RSAF/issues/190
 [Issue #193]: https://github.com/chenxiaolong/RSAF/issues/193
+[Issue #200]: https://github.com/chenxiaolong/RSAF/issues/200
 [PR #1]: https://github.com/chenxiaolong/RSAF/pull/1
 [PR #2]: https://github.com/chenxiaolong/RSAF/pull/2
 [PR #3]: https://github.com/chenxiaolong/RSAF/pull/3
@@ -488,3 +495,6 @@
 [PR #202]: https://github.com/chenxiaolong/RSAF/pull/202
 [PR #203]: https://github.com/chenxiaolong/RSAF/pull/203
 [PR #204]: https://github.com/chenxiaolong/RSAF/pull/204
+[PR #206]: https://github.com/chenxiaolong/RSAF/pull/206
+[PR #207]: https://github.com/chenxiaolong/RSAF/pull/207
+[PR #208]: https://github.com/chenxiaolong/RSAF/pull/208
