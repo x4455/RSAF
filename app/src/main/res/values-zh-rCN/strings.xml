@@ -79,25 +79,29 @@
     <string name="pref_edit_remote_vfs_options_name">自定义 VFS 选项</string>
     <string name="pref_edit_remote_vfs_options_desc">设置 <tt>rclone mount</tt> 支持的自定义 rclone VFS 选项。</string>
 
+    <!-- Alerts -->
+    <string name="action_details">详情</string>
+    <string name="dialog_error_details_title">错误详情</string>
+
     <!-- Main alerts -->
-    <string name="alert_list_remotes_failure">无法获取 Remotes 列表: %1$s</string>
+    <string name="alert_list_remotes_failure">无法获取 Remotes 列表</string>
     <string name="alert_add_remote_success">已成功添加新 Remote %1$s</string>
     <string name="alert_add_remote_partial">由于中断，新的 Remote %1$s 仅部分添加成功</string>
     <string name="alert_import_success">成功导入配置</string>
-    <string name="alert_import_failure">导入配置失败: %1$s</string>
+    <string name="alert_import_failure">导入配置失败</string>
     <string name="alert_import_cancelled">配置导入已取消</string>
     <string name="alert_export_success">成功导出配置</string>
-    <string name="alert_export_failure">导出配置失败: %1$s</string>
+    <string name="alert_export_failure">导出配置失败</string>
     <string name="alert_export_cancelled">配置导出已取消</string>
     <string name="alert_logcat_success">已成功将日志保存到 %1$s</string>
-    <string name="alert_logcat_failure">无法将日志保存到 %1$s: %2$s</string>
+    <string name="alert_logcat_failure">无法将日志保存到 %1$s</string>
 
     <!-- Edit remote alerts -->
     <string name="alert_edit_remote_success">已成功编辑 Remote %1$s</string>
-    <string name="alert_delete_remote_failure">无法删除 %1$s: %2$s</string>
-    <string name="alert_rename_remote_failure">无法将 Remote %1$s 重命名为 %2$s: %3$s</string>
-    <string name="alert_duplicate_remote_failure">无法将 Remote %1$s 复制为 %2$s: %3$s</string>
-    <string name="alert_set_config_failure">无法为 Remote %2$s 设置 %1$s 配置选项: %3$s</string>
+    <string name="alert_delete_remote_failure">无法删除 %1$s</string>
+    <string name="alert_rename_remote_failure">无法将 Remote %1$s 重命名为 %2$s</string>
+    <string name="alert_duplicate_remote_failure">无法将 Remote %1$s 复制为 %2$s</string>
+    <string name="alert_set_config_failure">无法为 Remote %2$s 设置 %1$s 配置选项</string>
     
     <!-- Biometric -->
     <string name="biometric_title">解锁配置</string>
