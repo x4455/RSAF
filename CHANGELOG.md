@@ -9,6 +9,11 @@
 
 **2025-10-02 Update: RSAF will _not_ be participating in Google's developer verification program ([more details](https://github.com/chenxiaolong/RSAF/issues/189)). This will soon impact your ability to install RSAF on most Android devices.**
 
+### Version 3.27
+
+* Update rclone to 1.72.1 ([PR #218])
+* Resume interrupted uploads (caused by a crash) after an app update, not just when the device reboots ([PR #219])
+
 ### Version 3.26
 
 * Add support for showing more detailed error messages and copying them ([Issue #209], [PR #212])
@@ -507,3 +512,5 @@
 [PR #208]: https://github.com/chenxiaolong/RSAF/pull/208
 [PR #212]: https://github.com/chenxiaolong/RSAF/pull/212
 [PR #213]: https://github.com/chenxiaolong/RSAF/pull/213
+[PR #218]: https://github.com/chenxiaolong/RSAF/pull/218
+[PR #219]: https://github.com/chenxiaolong/RSAF/pull/219
