@@ -141,8 +141,8 @@
 
     <!-- VFS options dialog -->
     <string name="vfs_options_title">VFS 选项: %1$s</string>
-    <string name="vfs_options_message">以 <tt>key=value</tt> 的格式输入自定义 rclone VFS 选项，每行一个选项。key是命令行参数，去掉开头的 <tt>--</tt> 并将其他所有连字符替换为下划线。有关可用选项列表，请参阅 <annotation type="rclone_vfs_docs">rclone 文档</annotation>。</string>
-    <string name="vfs_options_reload_warning"><b>注意</b>：必须重新加载 VFS 才能使更改生效，这将中断该 remote 正在进行的文件操作。</string>
+    <string name="vfs_options_message">以 <tt>key=value</tt> 的格式输入自定义 Rclone VFS 选项，每行一个选项。key是命令行参数，去掉开头的 <tt>--</tt> 并将其他所有连字符替换为下划线。有关可用选项列表，请参阅 <annotation type="rclone_vfs_docs">rclone 文档</annotation>。</string>
+    <string name="vfs_options_reload_warning"><b>注意</b>：必须重新加载 VFS 才能使更改生效，这将中断该 Remote 正在进行的文件操作。</string>
     <string name="vfs_options_save_and_reload">保存并加载</string>
     <string name="vfs_options_save_only">仅保存</string>
 
