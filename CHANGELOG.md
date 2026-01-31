@@ -9,9 +9,10 @@
 
 **2025-10-02 Update: RSAF will _not_ be participating in Google's developer verification program ([more details](https://github.com/chenxiaolong/RSAF/issues/189)). This will soon impact your ability to install RSAF on most Android devices.**
 
-### Unreleased
+### Version 3.28
 
 * Update AGP to 9.0.0 ([PR #222])
+* Update rclone to 1.73.0 ([PR #224])
 
 ### Version 3.27
 
@@ -519,3 +520,4 @@
 [PR #218]: https://github.com/chenxiaolong/RSAF/pull/218
 [PR #219]: https://github.com/chenxiaolong/RSAF/pull/219
 [PR #222]: https://github.com/chenxiaolong/RSAF/pull/222
+[PR #224]: https://github.com/chenxiaolong/RSAF/pull/224
