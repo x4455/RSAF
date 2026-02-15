@@ -12,14 +12,7 @@
 #   public *;
 #}
 
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
--keepattributes SourceFile,LineNumberTable
-
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
-
-# Disable obfuscation completely for RSAF. As an open source project,
-# shrinking is the only goal of minification.
--dontobfuscate
+# Keep log tags.
+-keepclasseswithmembers,allowoptimization,allowshrinking class com.chiller3.rsaf.** {
+    static final java.lang.String TAG;
+}
