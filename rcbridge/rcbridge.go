@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023-2025 Andrew Gunnerson
+// SPDX-FileCopyrightText: 2023-2026 Andrew Gunnerson
 // SPDX-License-Identifier: GPL-3.0-only
 
 // This is a thin wrapper around rclone's RPC calls and VFS system.
@@ -67,6 +67,17 @@ var (
 )
 
 func init() {
+	// Older Android versions do not set TMPDIR, causing bionic and the go
+	// runtime to default to /data/local/tmp, which we can't write to. rclone
+	// uses the system temp directory for creating spool files.
+	//
+	// https://android.googlesource.com/platform/frameworks/base/+/d5ccb038f69193fb63b5169d7adc5da19859c9d8%5E%21/
+	if _, ok := os.LookupEnv("TMPDIR"); !ok {
+		// This will never fail since we unconditionally set XDG_CACHE_HOME.
+		cacheDir, _ := os.UserCacheDir()
+		os.Setenv("TMPDIR", cacheDir)
+	}
+
 	items, err := configstruct.Items(&vfscommon.Opt)
 	if err != nil {
 		// Can't fail.
@@ -996,6 +1007,22 @@ func RbDocMkdir(doc string, perms int, errOut *RbError) bool {
 		return false
 	}
 
+	// rclone does not ever return EEXIST, so we'll have to simulate it
+	// ourselves, sadly with TOCTOU.
+	fi, err := v.Stat(path)
+	if err != nil {
+		if err != vfs.ENOENT {
+			assignError(errOut, err, syscall.EIO)
+			return false
+		}
+	} else if fi.Mode().IsRegular() {
+		assignError(errOut, fs.ErrorIsFile, syscall.ENOTDIR)
+		return false
+	} else {
+		assignError(errOut, vfs.EEXIST, syscall.EEXIST)
+		return false
+	}
+
 	err = v.Mkdir(path, ioFs.FileMode(perms&int(ioFs.ModePerm)))
 	if err != nil {
 		assignError(errOut, err, syscall.EIO)
@@ -1146,7 +1173,9 @@ func RbDocCopyOrMove(sourceDoc string, targetDoc string, copy bool, errOut *RbEr
 }
 
 type RbFile struct {
-	file vfs.Handle
+	file            vfs.Handle
+	nonCachingWrite bool
+	flushed         bool
 }
 
 // Open a file in the VFS at the given path. This works like POSIX open().
@@ -1157,9 +1186,35 @@ func RbDocOpen(doc string, flags int, mode int, errOut *RbError) *RbFile {
 		return nil
 	}
 
-	if v.Opt.CacheMode < vfscommon.CacheModeWrites && flags&(os.O_WRONLY|os.O_RDWR) != 0 {
-		fs.Logf(nil, "Forcing O_TRUNC for writable file due to streaming")
-		flags |= os.O_TRUNC
+	nonCachingWrite := false
+
+	if v.Opt.CacheMode < vfscommon.CacheModeWrites {
+		if flags&(os.O_WRONLY|os.O_RDWR) != 0 {
+			fs.Logf(nil, "Forcing O_TRUNC for writable file due to streaming")
+			flags |= os.O_TRUNC
+
+			// See Close() for details.
+			nonCachingWrite = true
+		}
+
+		// rclone only properly returns EEXIST when newRWFileHandle() is called,
+		// but that only happens via openRW() when caching is enabled, not with
+		// openWrite().
+		if flags&os.O_CREATE != 0 && flags&os.O_EXCL != 0 {
+			fi, err := v.Stat(path)
+			if err != nil {
+				if err != vfs.ENOENT {
+					assignError(errOut, err, syscall.EIO)
+					return nil
+				}
+			} else if fi.Mode().IsDir() {
+				assignError(errOut, fs.ErrorIsDir, syscall.EISDIR)
+				return nil
+			} else {
+				assignError(errOut, vfs.EEXIST, syscall.EEXIST)
+				return nil
+			}
+		}
 	}
 
 	handle, err := v.OpenFile(path, flags, ioFs.FileMode(mode&int(ioFs.ModePerm)))
@@ -1169,7 +1224,9 @@ func RbDocOpen(doc string, flags int, mode int, errOut *RbError) *RbFile {
 	}
 
 	return &RbFile{
-		file: handle,
+		file:            handle,
+		nonCachingWrite: nonCachingWrite,
+		flushed:         false,
 	}
 }
 
@@ -1178,7 +1235,9 @@ func RbDocOpen(doc string, flags int, mode int, errOut *RbError) *RbFile {
 // Even if an error is returned, the file handle should be considered closed.
 func (rbfile *RbFile) Close(errOut *RbError) bool {
 	err := rbfile.file.Close()
-	if err != nil {
+	// WriteFileHandle's Flush() method calls the internal close() method, which
+	// can only be done once.
+	if err != nil && !(err == vfs.ECLOSED && rbfile.nonCachingWrite && rbfile.flushed) {
 		assignError(errOut, err, syscall.EIO)
 		return false
 	}
@@ -1226,6 +1285,8 @@ func (rbfile *RbFile) Flush(errOut *RbError) bool {
 		assignError(errOut, err, syscall.EIO)
 		return false
 	}
+
+	rbfile.flushed = true
 
 	return true
 }

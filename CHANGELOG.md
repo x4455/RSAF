@@ -9,6 +9,16 @@
 
 **2025-10-02 Update: RSAF will _not_ be participating in Google's developer verification program ([more details](https://github.com/chenxiaolong/RSAF/issues/189)). This will soon impact your ability to install RSAF on most Android devices.**
 
+### Version 3.32
+
+* Fix log spam when querying VFS stats if no remotes are using the VFS ([PR #233])
+* Set `TMPDIR` explicitly to support old versions of Android ([Issue #232], [PR #234])
+  * rclone tries to write to the system temp directory when `vfs_cache_mode=off` is set and the backend does not support streaming uploads.
+* Fix file conflict handling when VFS caching is disabled ([PR #235])
+  * Files will now have the numeric suffix properly appended instead of being overwritten.
+* Fix harmless "file already closed" error notification in some scenarios when writing files while VFS caching is disabled ([PR #236])
+* Add CreateDocument and OpenDocument tests with VFS caching disabled ([PR #237])
+
 ### Version 3.31
 
 * Fix obfuscated log tags after proguard changes in version 3.30 ([PR #231])
@@ -398,6 +408,7 @@
 [Issue #200]: https://github.com/chenxiaolong/RSAF/issues/200
 [Issue #209]: https://github.com/chenxiaolong/RSAF/issues/209
 [Issue #211]: https://github.com/chenxiaolong/RSAF/issues/211
+[Issue #232]: https://github.com/chenxiaolong/RSAF/issues/232
 [PR #1]: https://github.com/chenxiaolong/RSAF/pull/1
 [PR #2]: https://github.com/chenxiaolong/RSAF/pull/2
 [PR #3]: https://github.com/chenxiaolong/RSAF/pull/3
@@ -541,3 +552,8 @@
 [PR #229]: https://github.com/chenxiaolong/RSAF/pull/229
 [PR #230]: https://github.com/chenxiaolong/RSAF/pull/230
 [PR #231]: https://github.com/chenxiaolong/RSAF/pull/231
+[PR #233]: https://github.com/chenxiaolong/RSAF/pull/233
+[PR #234]: https://github.com/chenxiaolong/RSAF/pull/234
+[PR #235]: https://github.com/chenxiaolong/RSAF/pull/235
+[PR #236]: https://github.com/chenxiaolong/RSAF/pull/236
+[PR #237]: https://github.com/chenxiaolong/RSAF/pull/237
