@@ -128,6 +128,7 @@
     <string name="dialog_export_password_title">配置导出</string>
     <string name="dialog_export_password_message">输入密码以加密导出的配置文件，或留空以明文存储。</string>
     <string name="dialog_export_password_hint">加密密码</string>
+    <string name="dialog_export_password_confirm_hint">确认密码</string>
     <string name="dialog_inactivity_timeout_title">闲置超时</string>
     <string name="dialog_inactivity_timeout_message">输入超时时间 (单位为秒)。</string>
     <string name="dialog_vfs_cache_deletion_message">当前有待处理的上传任务正在进行，可能会被中断。这些任务将从 VFS 缓存中永久删除。</string>
