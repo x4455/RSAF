@@ -9,6 +9,13 @@
 
 **2025-10-02 Update: RSAF will _not_ be participating in Google's developer verification program ([more details](https://github.com/chenxiaolong/RSAF/issues/189)). This will soon impact your ability to install RSAF on most Android devices.**
 
+### Version 3.35
+
+* Ignore app lock when device has no screen lock configured ([PR #246])
+* Spawn a new I/O thread for every opened file ([Issue #243], [PR #248])
+  * This works around an Android bug that causes `system_server` to crash, which looks like a reboot.
+  * See [this comment](https://github.com/chenxiaolong/RSAF/issues/243#issuecomment-3963482549) for an explanation on why the crash happens.
+
 ### Version 3.34
 
 * Ensure that the golang fork is always used, even if the host toolchain is newer ([PR #241])
@@ -418,6 +425,7 @@
 [Issue #209]: https://github.com/chenxiaolong/RSAF/issues/209
 [Issue #211]: https://github.com/chenxiaolong/RSAF/issues/211
 [Issue #232]: https://github.com/chenxiaolong/RSAF/issues/232
+[Issue #243]: https://github.com/chenxiaolong/RSAF/issues/243
 [PR #1]: https://github.com/chenxiaolong/RSAF/pull/1
 [PR #2]: https://github.com/chenxiaolong/RSAF/pull/2
 [PR #3]: https://github.com/chenxiaolong/RSAF/pull/3
@@ -569,3 +577,5 @@
 [PR #238]: https://github.com/chenxiaolong/RSAF/pull/238
 [PR #241]: https://github.com/chenxiaolong/RSAF/pull/241
 [PR #242]: https://github.com/chenxiaolong/RSAF/pull/242
+[PR #246]: https://github.com/chenxiaolong/RSAF/pull/246
+[PR #248]: https://github.com/chenxiaolong/RSAF/pull/248
