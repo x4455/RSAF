@@ -106,7 +106,8 @@
     <!-- Biometric -->
     <string name="biometric_title">解锁配置</string>
     <string name="biometric_error">生物识别验证错误: %1$s</string>
-    <string name="biometric_error_no_device_credential">无设备凭证</string>
+    <string name="biometric_error_cancelled">解锁操作已取消</string>
+    <string name="biometric_ignore">因设备未设置屏幕锁，已忽略应用锁</string>
 
     <!-- Dialogs -->
     <string name="dialog_action_next">下一步</string>
