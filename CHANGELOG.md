@@ -9,6 +9,11 @@
 
 **2025-10-02 Update: RSAF will _not_ be participating in Google's developer verification program ([more details](https://github.com/chenxiaolong/RSAF/issues/189)). This will soon impact your ability to install RSAF on most Android devices.**
 
+### Version 3.36
+
+* Switch to using upstream golang MTE fix ([PR #249], [PR #250])
+* Update rclone to 1.73.2 ([PR #251])
+
 ### Version 3.35
 
 * Ignore app lock when device has no screen lock configured ([PR #246])
@@ -579,3 +584,6 @@
 [PR #242]: https://github.com/chenxiaolong/RSAF/pull/242
 [PR #246]: https://github.com/chenxiaolong/RSAF/pull/246
 [PR #248]: https://github.com/chenxiaolong/RSAF/pull/248
+[PR #249]: https://github.com/chenxiaolong/RSAF/pull/249
+[PR #250]: https://github.com/chenxiaolong/RSAF/pull/250
+[PR #251]: https://github.com/chenxiaolong/RSAF/pull/251
