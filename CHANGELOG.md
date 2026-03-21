@@ -9,6 +9,14 @@
 
 **2025-10-02 Update: RSAF will _not_ be participating in Google's developer verification program ([more details](https://github.com/chenxiaolong/RSAF/issues/189)). This will soon impact your ability to install RSAF on most Android devices.**
 
+### Version 3.37
+
+* Add Chinese translations ([PR #252])
+* Only pass supported error types to client applications ([PR #254])
+* Remove useless extra text box in the inactivity timeout dialog ([PR #256])
+  * This was a regression introduced in version 3.34.
+* Update dependencies ([PR #255])
+
 ### Version 3.36
 
 * Switch to using upstream golang MTE fix ([PR #249], [PR #250])
@@ -587,3 +595,7 @@
 [PR #249]: https://github.com/chenxiaolong/RSAF/pull/249
 [PR #250]: https://github.com/chenxiaolong/RSAF/pull/250
 [PR #251]: https://github.com/chenxiaolong/RSAF/pull/251
+[PR #252]: https://github.com/chenxiaolong/RSAF/pull/252
+[PR #254]: https://github.com/chenxiaolong/RSAF/pull/254
+[PR #255]: https://github.com/chenxiaolong/RSAF/pull/255
+[PR #256]: https://github.com/chenxiaolong/RSAF/pull/256
