@@ -7,7 +7,9 @@
     to update the actual links at the bottom of the file.
 -->
 
-**2025-10-02 Update: RSAF will _not_ be participating in Google's developer verification program ([more details](https://github.com/chenxiaolong/RSAF/issues/189)). This will soon impact your ability to install RSAF on most Android devices.**
+### Version 3.44
+
+* Update rclone to 1.74.0 ([PR #274])
 
 ### Version 3.43
 
@@ -641,3 +643,4 @@
 [PR #267]: https://github.com/chenxiaolong/RSAF/pull/267
 [PR #270]: https://github.com/chenxiaolong/RSAF/pull/270
 [PR #273]: https://github.com/chenxiaolong/RSAF/pull/273
+[PR #274]: https://github.com/chenxiaolong/RSAF/pull/274

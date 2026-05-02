@@ -1,11 +1,6 @@
-**2025-10-02 Update: RSAF will _not_ be participating in Google's developer verification program ([more details](https://github.com/chenxiaolong/RSAF/issues/189)). This will soon impact your ability to install RSAF on most Android devices.**
-
 # RSAF
 
 <img src="app/images/icon.svg" alt="app icon" width="72" />
-
-![latest release badge](https://img.shields.io/github/v/release/chenxiaolong/RSAF?sort=semver)
-![license badge](https://img.shields.io/github/license/chenxiaolong/RSAF)
 
 RSAF is an Android document provider for the wonderful [rclone](https://rclone.org/). It allows any app that supports Android's Storage Access Framework (SAF) to access remote files via rclone's backends.
 
@@ -155,6 +150,6 @@ If you are interested in implementing a new feature and would like to see it inc
 
 ## License
 
-RSAF itself is licensed under GPLv3. Please see [`LICENSE`](./LICENSE) for the full license text.
+RSAF itself is licensed under GPL-3.0-only. Please see [`LICENSE`](./LICENSE) for the full license text.
 
 The bundled rclone is [licensed under MIT](https://rclone.org/licence/).
