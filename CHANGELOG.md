@@ -7,6 +7,16 @@
     to update the actual links at the bottom of the file.
 -->
 
+### Version 3.46
+
+* Update golang to 1.26.3 ([PR #280])
+* Update rclone to 1.74.1 ([PR #281])
+
+### Version 3.45
+
+* Minor bug fix for long-clickable preferences ([PR #276])
+* Use distinct version code for each APK split ([Issue #277], [PR #278])
+
 ### Version 3.44
 
 * Update rclone to 1.74.0 ([PR #274])
@@ -474,6 +484,7 @@
 [Issue #243]: https://github.com/chenxiaolong/RSAF/issues/243
 [Issue #258]: https://github.com/chenxiaolong/RSAF/issues/258
 [Issue #268]: https://github.com/chenxiaolong/RSAF/issues/268
+[Issue #277]: https://github.com/chenxiaolong/RSAF/issues/277
 [PR #1]: https://github.com/chenxiaolong/RSAF/pull/1
 [PR #2]: https://github.com/chenxiaolong/RSAF/pull/2
 [PR #3]: https://github.com/chenxiaolong/RSAF/pull/3
@@ -644,3 +655,7 @@
 [PR #270]: https://github.com/chenxiaolong/RSAF/pull/270
 [PR #273]: https://github.com/chenxiaolong/RSAF/pull/273
 [PR #274]: https://github.com/chenxiaolong/RSAF/pull/274
+[PR #276]: https://github.com/chenxiaolong/RSAF/pull/276
+[PR #278]: https://github.com/chenxiaolong/RSAF/pull/278
+[PR #280]: https://github.com/chenxiaolong/RSAF/pull/280
+[PR #281]: https://github.com/chenxiaolong/RSAF/pull/281
