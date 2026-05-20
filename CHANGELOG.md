@@ -7,6 +7,11 @@
     to update the actual links at the bottom of the file.
 -->
 
+### Version 3.47
+
+* Fix titles of switch preferences being truncated when they don't fit ([PR #283])
+* Add a workaround to allow going back to previous questions when configuring remotes, despite rclone not supporting it ([Issue #284], [PR #285])
+
 ### Version 3.46
 
 * Update golang to 1.26.3 ([PR #280])
@@ -485,6 +490,7 @@
 [Issue #258]: https://github.com/chenxiaolong/RSAF/issues/258
 [Issue #268]: https://github.com/chenxiaolong/RSAF/issues/268
 [Issue #277]: https://github.com/chenxiaolong/RSAF/issues/277
+[Issue #284]: https://github.com/chenxiaolong/RSAF/issues/284
 [PR #1]: https://github.com/chenxiaolong/RSAF/pull/1
 [PR #2]: https://github.com/chenxiaolong/RSAF/pull/2
 [PR #3]: https://github.com/chenxiaolong/RSAF/pull/3
@@ -659,3 +665,5 @@
 [PR #278]: https://github.com/chenxiaolong/RSAF/pull/278
 [PR #280]: https://github.com/chenxiaolong/RSAF/pull/280
 [PR #281]: https://github.com/chenxiaolong/RSAF/pull/281
+[PR #283]: https://github.com/chenxiaolong/RSAF/pull/283
+[PR #285]: https://github.com/chenxiaolong/RSAF/pull/285
