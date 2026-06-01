@@ -9,7 +9,6 @@
     <string name="pref_header_remote">Remote</string>
     <string name="pref_header_configuration">配置</string>
     <string name="pref_header_behavior">行为</string>
-    <string name="pref_header_ui">用户界面</string>
     <string name="pref_header_app_lock">应用锁定</string>
     <string name="pref_header_advanced">高级</string>
     <string name="pref_header_about">关于</string>
@@ -32,8 +31,6 @@
     <string name="pref_pretend_local_desc">将 Rclone Remotes 作为本地存储提供给存储访问框架。这会强制与仅允许选择本地文件的应用程序兼容。</string>
     <string name="pref_local_storage_access_name">允许访问本地存储</string>
     <string name="pref_local_storage_access_desc">允许封装类 Remotes 访问，例如 <tt>crypt</tt>…\n访问 <tt>/sdcard</tt> 下的共享存储空间。</string>
-    <string name="pref_dialogs_at_bottom_name">在底部显示对话框</string>
-    <string name="pref_dialogs_at_bottom_desc">使单手操作更加方便，并防止对话框按钮移位。</string>
     <string name="pref_require_auth_name">需要身份验证</string>
     <string name="pref_require_auth_desc">需要生物识别解锁或屏幕锁定 PIN 码/密码才能查看和更改 RSAF 设置。</string>
     <string name="pref_inactivity_timeout_name">闲置超时</string>
