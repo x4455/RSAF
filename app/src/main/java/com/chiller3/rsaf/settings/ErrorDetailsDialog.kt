@@ -9,6 +9,7 @@ package com.chiller3.rsaf.settings
 
 import android.content.ClipData
 import android.content.ClipboardManager
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Text
@@ -24,6 +25,7 @@ import com.chiller3.rsaf.R
 fun ErrorDetailsDialog(
     message: String?,
     onDismiss: () -> Unit,
+    showCopy: Boolean = true,
 ) {
     val context = LocalContext.current
 
@@ -33,7 +35,9 @@ fun ErrorDetailsDialog(
         },
         text = {
             message?.let {
-                Text(text = it)
+                SelectionContainer {
+                    Text(text = it)
+                }
             }
         },
         onDismissRequest = onDismiss,
@@ -43,7 +47,7 @@ fun ErrorDetailsDialog(
             }
         },
         dismissButton = {
-            message?.let {
+            if (message != null && showCopy) {
                 TextButton(
                     onClick = {
                         val clipboardManager = context.getSystemService(ClipboardManager::class.java)
