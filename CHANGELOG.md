@@ -7,6 +7,17 @@
     to update the actual links at the bottom of the file.
 -->
 
+### Version 4.3
+
+* Update target API version to API 37 (Android 17) ([PR #308])
+  * **Action required**: Android 17 now blocks local network connections by default. If you have any rclone remotes that connect to hosts on the local network, open the app to grant the new local network permission.
+* Make back navigation icon filled to match Material 3 Expressive styling in Android's system settings ([PR #307])
+
+### Version 4.2
+
+* Fix Android's user CA trust store not being trusted after an app restart ([Issue #302], [PR #305])
+  * This was a regression introduced in version 3.49.
+
 ### Version 4.1
 
 * Use elapsed realtime clock for the app lock feature ([PR #295])
@@ -518,6 +529,7 @@
 [Issue #284]: https://github.com/chenxiaolong/RSAF/issues/284
 [Issue #287]: https://github.com/chenxiaolong/RSAF/issues/287
 [Issue #299]: https://github.com/chenxiaolong/RSAF/issues/299
+[Issue #302]: https://github.com/chenxiaolong/RSAF/issues/302
 [PR #1]: https://github.com/chenxiaolong/RSAF/pull/1
 [PR #2]: https://github.com/chenxiaolong/RSAF/pull/2
 [PR #3]: https://github.com/chenxiaolong/RSAF/pull/3
@@ -704,3 +716,6 @@
 [PR #297]: https://github.com/chenxiaolong/RSAF/pull/297
 [PR #300]: https://github.com/chenxiaolong/RSAF/pull/300
 [PR #301]: https://github.com/chenxiaolong/RSAF/pull/301
+[PR #305]: https://github.com/chenxiaolong/RSAF/pull/305
+[PR #307]: https://github.com/chenxiaolong/RSAF/pull/307
+[PR #308]: https://github.com/chenxiaolong/RSAF/pull/308
