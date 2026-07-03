@@ -9,10 +9,15 @@
 
 ### Unreleased
 
-* Add Traditional Chinese translations ([PR #309])
-* Add Italian translations ([PR #310])
+* Update dynamic background color to match AOSP Settings ([PR #315])
+
+### Version 4.4
+
 * Show loading state when configuring a remote if submitting an answer to a question takes a while ([PR #312])
 * Fix crash when configuring a remote if rclone returns multiple choices with identical values ([Issue #311], [PR #313])
+* Keep app alive while waiting for oauth authorization ([Issue #311], [PR #314])
+* Add Traditional Chinese translations ([PR #309])
+* Add Italian translations ([PR #310])
 
 ### Version 4.3
 
@@ -731,3 +736,5 @@
 [PR #310]: https://github.com/chenxiaolong/RSAF/pull/310
 [PR #312]: https://github.com/chenxiaolong/RSAF/pull/312
 [PR #313]: https://github.com/chenxiaolong/RSAF/pull/313
+[PR #314]: https://github.com/chenxiaolong/RSAF/pull/314
+[PR #315]: https://github.com/chenxiaolong/RSAF/pull/315
