@@ -41,11 +41,14 @@ object RcloneRpc {
      *
      * @throws IOException if the RPC call does not return a 200 status
      */
-    private fun invoke(method: String, input: JSONObject): JSONObject {
+    private fun invoke(method: String, input: JSONObject, notifyBackup: Boolean = true): JSONObject {
         val result = Rcbridge.rbRpcCall(method, input.toString())
 
-        when (method) {
-            "config/create", "config/delete", "config/update" -> RcloneConfig.notifyConfigChanged()
+        if (notifyBackup) {
+            when (method) {
+                "config/create", "config/delete", "config/unset", "config/update" ->
+                    RcloneConfig.notifyConfigChanged()
+            }
         }
 
         if (result.status != 200L) {
@@ -474,12 +477,20 @@ object RcloneRpc {
 
     /** Directly and non-interactively set config key/value pairs for a remote. */
     private fun setRemoteOptions(remote: String, options: Map<String, String?>) {
-        // The RPC API can add and update keys, but cannot delete them. This is done before
-        // config/update because the RPC call will trigger the notification to the backup manager.
-        for ((k, v) in options.entries) {
-            if (v == null) {
-                RcloneConfig.deleteSectionKey(remote, k)
+        val deleteKeys = JSONArray().apply {
+            for ((k, v) in options.entries) {
+                if (v == null) {
+                    put(k)
+                }
             }
+        }
+        if (deleteKeys.length() > 0) {
+            invoke("config/unset", JSONObject()
+                .put("name", remote)
+                .put("keys", deleteKeys),
+                // The update below will do it.
+                notifyBackup = false,
+            )
         }
 
         invoke("config/update", JSONObject()
@@ -515,7 +526,7 @@ object RcloneRpc {
         val dynamicShortcut: Boolean? = null,
         val thumbnails: Boolean? = null,
         val reportUsage: Boolean? = null,
-        val vfsOptions: Map<String, String> = emptyMap(),
+        val vfsOptions: Map<String, String>? = null,
     ) {
         constructor(config: Map<String, String>) : this(
             hardBlocked = config[CUSTOM_OPT_HARD_BLOCKED]?.toBooleanStrictOrNull(),
@@ -526,7 +537,8 @@ object RcloneRpc {
             vfsOptions = config
                 .asSequence()
                 .filter { it.key.startsWith(CUSTOM_OPT_VFS_OPTIONS_PREFIX) }
-                .associate { it.key.substring(CUSTOM_OPT_VFS_OPTIONS_PREFIX.length) to it.value },
+                .associate { it.key.substring(CUSTOM_OPT_VFS_OPTIONS_PREFIX.length) to it.value }
+                .takeIf { it.isNotEmpty() },
         )
 
         fun toMap(): Map<String, String> = buildMap {
@@ -535,7 +547,17 @@ object RcloneRpc {
             dynamicShortcut?.let { put(CUSTOM_OPT_DYNAMIC_SHORTCUT, it.toString()) }
             thumbnails?.let { put(CUSTOM_OPT_THUMBNAILS, it.toString()) }
             reportUsage?.let { put(CUSTOM_OPT_REPORT_USAGE, it.toString()) }
-            vfsOptions.mapKeysTo(this) { CUSTOM_OPT_VFS_OPTIONS_PREFIX + it.key }
+            vfsOptions?.let { it.mapKeysTo(this) { e -> CUSTOM_OPT_VFS_OPTIONS_PREFIX + e.key } }
+        }
+
+        fun changesKey(key: String): Boolean = when {
+            key == CUSTOM_OPT_HARD_BLOCKED -> hardBlocked != null
+            key == CUSTOM_OPT_SOFT_BLOCKED -> softBlocked != null
+            key == CUSTOM_OPT_DYNAMIC_SHORTCUT -> dynamicShortcut != null
+            key == CUSTOM_OPT_THUMBNAILS -> thumbnails != null
+            key == CUSTOM_OPT_REPORT_USAGE -> reportUsage != null
+            key.startsWith(CUSTOM_OPT_VFS_OPTIONS_PREFIX) -> vfsOptions != null
+            else -> false
         }
 
         val hardBlockedOrDefault: Boolean
@@ -548,15 +570,17 @@ object RcloneRpc {
             get() = thumbnails ?: DEFAULT_THUMBNAILS
         val reportUsageOrDefault: Boolean
             get() = reportUsage ?: DEFAULT_REPORT_USAGE
+        val vfsOptionsOrDefault: Map<String, String>
+            get() = vfsOptions ?: emptyMap()
     }
 
     fun setRemoteConfig(remote: String, config: RemoteConfig) {
         val updates = mutableMapOf<String, String?>()
 
-        // Ensure we don't leave behind legacy options.
+        // Explicitly unset any legacy keys and keys that are going to be changed by this operation.
         remoteConfigsRaw[remote]
             ?.asSequence()
-            ?.filter { (key, _) -> !isKnownKey(key) }
+            ?.filter { (key, _) -> !isKnownKey(key) || config.changesKey(key) }
             ?.associateTo(updates) { (key, _) -> key to null }
 
         updates.putAll(config.toMap())
@@ -628,5 +652,19 @@ object RcloneRpc {
         }
 
         return VfsQueueStats(inProgress, pending)
+    }
+
+    fun authorizeUrl(): String? {
+        val output = invoke("config/oauthstatus", JSONObject())
+
+        return if (output.getString("status") == "running") {
+            output.getString("authUrl")
+        } else {
+            null
+        }
+    }
+
+    fun authorizeCancel() {
+        invoke("config/oauthstop", JSONObject())
     }
 }
