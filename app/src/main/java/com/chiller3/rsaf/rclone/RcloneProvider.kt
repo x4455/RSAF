@@ -70,6 +70,8 @@ class RcloneProvider : DocumentsProvider(), SharedPreferences.OnSharedPreference
             DocumentsContract.Root.COLUMN_TITLE,
             DocumentsContract.Root.COLUMN_SUMMARY,
             DocumentsContract.Root.COLUMN_DOCUMENT_ID,
+            DocumentsContract.Root.COLUMN_CAPACITY_BYTES,
+            DocumentsContract.Root.COLUMN_AVAILABLE_BYTES,
         )
         private val DEFAULT_DOCUMENT_PROJECTION: Array<String> = arrayOf(
             DocumentsContract.Document.COLUMN_DOCUMENT_ID,
@@ -577,12 +579,9 @@ class RcloneProvider : DocumentsProvider(), SharedPreferences.OnSharedPreference
                     // Required
                     add(DocumentsContract.Root.COLUMN_ROOT_ID, remote)
                     add(DocumentsContract.Root.COLUMN_ICON, R.mipmap.ic_launcher)
-                    add(DocumentsContract.Root.COLUMN_TITLE, context!!.getString(R.string.app_name))
+                    add(DocumentsContract.Root.COLUMN_TITLE, remote)
                     add(DocumentsContract.Root.COLUMN_FLAGS, flags)
                     add(DocumentsContract.Root.COLUMN_DOCUMENT_ID, "$remote:")
-
-                    // Optional
-                    add(DocumentsContract.Root.COLUMN_SUMMARY, remote)
 
                     usage?.total?.let {
                         debugLog("Remote reports total space: $remote: $it")

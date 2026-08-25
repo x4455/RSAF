@@ -7,6 +7,13 @@
     to update the actual links at the bottom of the file.
 -->
 
+### Version 4.11
+
+**NOTE**: Due to Google's new pricing policy, rclone will be revoking their OAuth client ID soon, which will break Google Drive and Google Photos access. See [Issue #320] for more details.
+
+* Make filesystem usage fields available by default ([Issue #333], [PR #335])
+  * This fixes the system file manager not showing the filesystem usage because it does not ask for the information but expects it to be available.
+
 ### Version 4.10
 
 **NOTE**: Due to Google's new pricing policy, rclone will be revoking their OAuth client ID soon, which will break Google Drive and Google Photos access. See [Issue #320] for more details.
@@ -582,6 +589,7 @@
 [Issue #311]: https://github.com/chenxiaolong/RSAF/issues/311
 [Issue #320]: https://github.com/chenxiaolong/RSAF/issues/320
 [Issue #326]: https://github.com/chenxiaolong/RSAF/issues/326
+[Issue #333]: https://github.com/chenxiaolong/RSAF/issues/333
 [PR #1]: https://github.com/chenxiaolong/RSAF/pull/1
 [PR #2]: https://github.com/chenxiaolong/RSAF/pull/2
 [PR #3]: https://github.com/chenxiaolong/RSAF/pull/3
@@ -791,3 +799,4 @@
 [PR #330]: https://github.com/chenxiaolong/RSAF/pull/330
 [PR #331]: https://github.com/chenxiaolong/RSAF/pull/331
 [PR #332]: https://github.com/chenxiaolong/RSAF/pull/332
+[PR #335]: https://github.com/chenxiaolong/RSAF/pull/335
