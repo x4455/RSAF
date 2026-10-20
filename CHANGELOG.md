@@ -7,6 +7,12 @@
     to update the actual links at the bottom of the file.
 -->
 
+### Version 4.15
+
+* Skip computing filesystem usage info when a system app lists the remotes but doesn't ask for those fields ([PR #348])
+* Update golang to 1.27.3 for [CVE-2026-111943](https://github.com/golang/go/issues/82345) ([PR #349])
+  * Some of emSign's intermediate CA certificates are being distrusted due to a not-yet-disclosed [security incident](https://github.com/certifi/python-certifi/issues/439).
+
 ### Version 4.14
 
 * Update rclone to 1.75.2 ([PR #346])
@@ -822,3 +828,5 @@
 [PR #344]: https://github.com/chenxiaolong/RSAF/pull/344
 [PR #345]: https://github.com/chenxiaolong/RSAF/pull/345
 [PR #346]: https://github.com/chenxiaolong/RSAF/pull/346
+[PR #348]: https://github.com/chenxiaolong/RSAF/pull/348
+[PR #349]: https://github.com/chenxiaolong/RSAF/pull/349
