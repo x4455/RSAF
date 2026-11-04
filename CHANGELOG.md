@@ -7,11 +7,15 @@
     to update the actual links at the bottom of the file.
 -->
 
+### Version 4.16
+
+* Limit remote descriptions to 2 lines to prevent excessively long text (like with rclone's S3 backend) ([Issue #351], [PR #352])
+
 ### Version 4.15
 
 * Skip computing filesystem usage info when a system app lists the remotes but doesn't ask for those fields ([PR #348])
 * Update golang to 1.27.3 for [CVE-2026-111943](https://github.com/golang/go/issues/82345) ([PR #349])
-  * Some of emSign's intermediate CA certificates are being distrusted due to a not-yet-disclosed [security incident](https://github.com/certifi/python-certifi/issues/439).
+  * Several of eMudhra's intermediate CA certificates are being distrusted due to [their private keys being trivially discoverable](https://bugzilla.mozilla.org/show_bug.cgi?id=2083449).
 
 ### Version 4.14
 
@@ -614,6 +618,7 @@
 [Issue #326]: https://github.com/chenxiaolong/RSAF/issues/326
 [Issue #333]: https://github.com/chenxiaolong/RSAF/issues/333
 [Issue #343]: https://github.com/chenxiaolong/RSAF/issues/343
+[Issue #351]: https://github.com/chenxiaolong/RSAF/issues/351
 [PR #1]: https://github.com/chenxiaolong/RSAF/pull/1
 [PR #2]: https://github.com/chenxiaolong/RSAF/pull/2
 [PR #3]: https://github.com/chenxiaolong/RSAF/pull/3
@@ -830,3 +835,4 @@
 [PR #346]: https://github.com/chenxiaolong/RSAF/pull/346
 [PR #348]: https://github.com/chenxiaolong/RSAF/pull/348
 [PR #349]: https://github.com/chenxiaolong/RSAF/pull/349
+[PR #352]: https://github.com/chenxiaolong/RSAF/pull/352
