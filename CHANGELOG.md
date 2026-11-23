@@ -7,6 +7,12 @@
     to update the actual links at the bottom of the file.
 -->
 
+### Version 4.18
+
+* Move VFS cache directory out of Android's cache directory ([Issue #356], [PR #357])
+  * Prevents potential data loss from losing pending uploads if the app cache is cleared, either by the user or by Android
+* Update dependencies ([PR #358])
+
 ### Version 4.17
 
 * Update rclone to 1.76.0 ([PR #353])
@@ -623,6 +629,7 @@
 [Issue #333]: https://github.com/chenxiaolong/RSAF/issues/333
 [Issue #343]: https://github.com/chenxiaolong/RSAF/issues/343
 [Issue #351]: https://github.com/chenxiaolong/RSAF/issues/351
+[Issue #356]: https://github.com/chenxiaolong/RSAF/issues/356
 [PR #1]: https://github.com/chenxiaolong/RSAF/pull/1
 [PR #2]: https://github.com/chenxiaolong/RSAF/pull/2
 [PR #3]: https://github.com/chenxiaolong/RSAF/pull/3
@@ -841,3 +848,5 @@
 [PR #349]: https://github.com/chenxiaolong/RSAF/pull/349
 [PR #352]: https://github.com/chenxiaolong/RSAF/pull/352
 [PR #353]: https://github.com/chenxiaolong/RSAF/pull/353
+[PR #357]: https://github.com/chenxiaolong/RSAF/pull/357
+[PR #358]: https://github.com/chenxiaolong/RSAF/pull/358
